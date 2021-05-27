@@ -53,7 +53,7 @@ jobs:
 
       - run: npm install
 
-      - run: docker run --rm -v $(pwd):/src -w /src hysnsec/retire --outputformat json --outputpath retirejs-report.json --severity high
+      - run: docker run --rm -v /django.nv:/src -w /src hysnsec/retire --outputformat json --outputpath retirejs-report.json --severity high
 
       - uses: actions/upload-artifact@v2
         with:
@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: docker run --rm -v $(pwd):/src hysnsec/bandit -r /src -f json -o /src/bandit-output.json
+      - run: docker run --rm -v /django.nv:/src hysnsec/bandit -r /src -f json -o /src/bandit-output.json
         continue-on-error: true             # allow the build to fail, similar to allow_failure: true
 
       - uses: actions/upload-artifact@v2
@@ -89,4 +89,3 @@ jobs:
     needs: integration
     steps:
       - run: echo "This is a deploy step."
-
